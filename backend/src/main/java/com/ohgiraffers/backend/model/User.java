@@ -11,7 +11,7 @@ public class User {
 
 	private Long userId;
 	private String name;
-	private String eamil;
+	private String email;
 	private String password;
 	private LocalDateTime createdAt;
 	private String role;
