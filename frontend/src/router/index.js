@@ -20,6 +20,6 @@ const router = createRouter({
             component: () => import('../views/Signup.vue'),
         }
     ]
-})
+}); // ; JS에서도 꼭쓰자 약속
 
 export default router
