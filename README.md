@@ -1,4 +1,4 @@
-# 가계부 (Account Book)
+# Tickle-Moa (가계부 Account Book)
 
 모놀리식 개인 재무 관리 웹 애플리케이션
 
