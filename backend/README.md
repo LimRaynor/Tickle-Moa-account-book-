@@ -19,8 +19,6 @@
 [MariaDB]      → 데이터 저장/조회
 ```
 
----
-
 ## 패키지별 역할 요약
 
 | 패키지 | 역할 | 핵심 어노테이션 | 상세 |
@@ -34,20 +32,15 @@
 | **security** | JWT 인증 (미구현) | - | 추후 작성 |
 | **dto** | 요청/응답 전용 객체 (미구현) | - | 추후 작성 |
 
----
-
 ## 코딩 순서 (아래에서 위로)
-
 ```
-1. Model     → DB 테이블에 맞는 필드 선언 (그릇 만들기)
-2. Mapper    → 인터페이스에 메서드 선언 (어떤 DB 작업이 있는지)
-3. XML       → 실제 SQL 작성 (SELECT, INSERT, DELETE)
-4. Service   → Mapper를 호출하면서 판단/가공 로직 추가
-5. Controller→ URL 매핑하고 Service 호출
-6. Config    → 보안, CORS 등 서버 설정
+1. Model      → DB 테이블에 맞는 필드 선언 (그릇 만들기)
+2. Mapper     → 인터페이스에 메서드 선언 (어떤 DB 작업이 있는지)
+3. XML        → 실제 SQL 작성 (SELECT, INSERT, DELETE)
+4. Service    → Mapper를 호출하면서 판단/가공 로직 추가
+5. Controller → URL 매핑하고 Service 호출
+6. Config     → 보안, CORS 등 서버 설정
 ```
-
----
 
 ## API 엔드포인트
 
@@ -71,24 +64,8 @@
 | POST | `/api/transactions` | 거래 추가 |
 | DELETE | `/api/transactions/{id}` | 거래 삭제 |
 
----
-
-## DB 접속 정보
-
-| 항목 | 값 |
-|------|---|
-| 호스트 | localhost:3306 |
-| DB명 | account_book_db |
-| 계정 | account / book |
-
----
-
 ## 실행 방법
-
 ```bash
-# 백엔드 실행
 cd backend && ./gradlew bootRun    # http://localhost:8080
-
-# 프론트엔드 실행
 cd frontend && npm run dev          # http://localhost:5173
 ```
