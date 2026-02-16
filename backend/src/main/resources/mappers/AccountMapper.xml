@@ -4,9 +4,17 @@
 
 <mapper namespace="com.ohgiraffers.backend.mapper.AccountMapper">
 
-    <!-- 여기에 SQL 작성 -->
-    <!-- <select id="findByUserId" resultType="Account"> -->
-    <!-- <insert id="insertAccount"> -->
-    <!-- <delete id="deleteById"> -->
+    <select id="findByUserId" resultType="com.ohgiraffers.backend.model.Account">
+        SELECT * FROM accounts WHERE user_id = #{userId}
+    </select>
+
+    <insert id="insertAccount">
+        INSERT INTO accounts (user_id, name, balance)
+        VALUES (#{userId}, #{name}, #{balance})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM accounts WHERE account_id = #{accountId}
+    </delete>
 
 </mapper>
