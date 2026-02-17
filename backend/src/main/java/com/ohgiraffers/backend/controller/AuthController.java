@@ -20,11 +20,13 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody User user) {
+	public ResponseEntity<User> login(@RequestBody User user) {
 		User found = authService.findByEmail(user.getEmail());
 		if (found == null) {
-			return ResponseEntity.badRequest().body("존재하지 않는 이메일입니다");
+			return ResponseEntity.badRequest().build(); // 상태코드로 응답받음
+			/*body*/ //("존재하지 않는 이메일입니다");
 		}
-		return ResponseEntity.ok("로그인 성공");
+	//	return ResponseEntity.ok("로그인 성공"); // 기존의 로그인성공 임의이메세지 -> 프론트엔드 조회
+		return ResponseEntity.ok(found);  // User 객체 반환 (userId, name, email 포함)
 	}
 }
