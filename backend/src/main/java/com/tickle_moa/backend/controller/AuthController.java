@@ -1,4 +1,4 @@
-package com.tickle_moa.backend.controller;
+﻿package com.tickle_moa.backend.controller;
 
 import com.tickle_moa.backend.model.User;
 import com.tickle_moa.backend.service.AuthService;
@@ -8,25 +8,26 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+// 인증(회원가입/로그인) 관련 API를 처리하는 컨트롤러
 public class AuthController {
 
-	@Autowired
-	private AuthService authService;
+    @Autowired
+    private AuthService authService;
 
-	@PostMapping("/signup")
-	public ResponseEntity<String> signup(@RequestBody User user) {
-		authService.signup(user);
-		return ResponseEntity.ok("회원가입 성공");
-	}
+    // POST /api/auth/signup 요청이 오면 -> 회원가입 처리
+    @PostMapping("/signup")
+    public ResponseEntity<String> signup(@RequestBody User user) {
+        authService.signup(user);
+        return ResponseEntity.ok("?뚯썝媛???깃났");
+    }
 
-	@PostMapping("/login")
-	public ResponseEntity<User> login(@RequestBody User user) {
-		User found = authService.findByEmail(user.getEmail());
-		if (found == null) {
-			return ResponseEntity.badRequest().build(); // 상태코드로 응답받음
-			/*body*/ //("존재하지 않는 이메일입니다");
-		}
-	//	return ResponseEntity.ok("로그인 성공"); // 기존의 로그인성공 임의이메세지 -> 프론트엔드 조회
-		return ResponseEntity.ok(found);  // User 객체 반환 (userId, name, email 포함)
-	}
+    // POST /api/auth/login 요청이 오면 -> 이메일 기준으로 사용자 조회 후 반환
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody User user) {
+        User found = authService.findByEmail(user.getEmail());
+        if (found == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(found);
+    }
 }

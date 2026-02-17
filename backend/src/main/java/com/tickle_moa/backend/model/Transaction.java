@@ -8,8 +8,8 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-// transactions 테이블과 매핑되는 VO 클래스
-// 필드: tranId, accountId, type, category, amount, description, date, createdAt
+// erd보고 넣기
+// bigint==Long, DECIMAL==BigDecimal
 public class Transaction {
 	private Long tranId;
 	private Long accountId;

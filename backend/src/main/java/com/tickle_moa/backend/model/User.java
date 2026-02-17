@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-// users 테이블과 매핑되는 VO 클래스
-// 필드: userId, name, email, password, createdAt, role
+// erd보고 넣기
+// bigint==Long
 public class User {
 
 	private Long userId;

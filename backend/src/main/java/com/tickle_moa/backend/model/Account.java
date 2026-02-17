@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-// accounts 테이블과 매핑되는 VO 클래스
-// 필드: accountId, userId, name, balance, createdAt
+// erd보고 넣기
+// bigint==Long, DECIMAL==BigDecimal
 public class Account {
 	private Long accountId;
 	private Long userId;
