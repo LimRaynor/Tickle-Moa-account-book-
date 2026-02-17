@@ -16,7 +16,7 @@
 ```text
 account-book/
 ├─ backend/
-│  ├─ src/main/java/com/ohgiraffers/backend/
+│  ├─ src/main/java/com/tickle_moa/backend/
 │  │  ├─ config/
 │  │  ├─ controller/
 │  │  ├─ dto/
@@ -40,6 +40,24 @@ account-book/
 ├─ LIBRARY_TRACKER.md
 └─ README.md
 ```
+
+## 백엔드 역할 정리
+
+- `config`
+  - 보안/CORS/공통 설정 담당
+  - 프론트와 "연결"이라기보다 서버의 요청 허용 규칙을 정하는 계층
+- `controller`
+  - 요청/응답 입구
+  - `RequestBody/RequestParam/PathVariable`을 받아 Service 호출 후 응답 반환
+- `service`
+  - 비즈니스 로직 담당
+  - 직접 SQL 실행보다 Mapper 호출로 DB 작업 수행
+- `mapper`
+  - Service 요청을 받아 MyBatis XML SQL 실행
+- `model`
+  - Repository가 아니라 DB 테이블과 매핑되는 도메인 객체(VO/Entity 성격)
+- `MariaDB`
+  - 데이터 저장/조회/수정/삭제 수행
 
 ## 실행 방법
 
@@ -89,13 +107,13 @@ Vue View -> Pinia Store -> Axios(api/axios.js)
 ## 패키지별 가이드
 
 ### Backend
-- `backend/src/main/java/com/ohgiraffers/backend/config/CONFIG_GUIDE.md`
-- `backend/src/main/java/com/ohgiraffers/backend/controller/CONTROLLER_GUIDE.md`
-- `backend/src/main/java/com/ohgiraffers/backend/dto/DTO_GUIDE.md`
-- `backend/src/main/java/com/ohgiraffers/backend/service/SERVICE_GUIDE.md`
-- `backend/src/main/java/com/ohgiraffers/backend/mapper/MAPPER_GUIDE.md`
-- `backend/src/main/java/com/ohgiraffers/backend/model/MODEL_GUIDE.md`
-- `backend/src/main/java/com/ohgiraffers/backend/security/SECURITY_GUIDE.md`
+- `backend/src/main/java/com/tickle_moa/backend/config/CONFIG_GUIDE.md`
+- `backend/src/main/java/com/tickle_moa/backend/controller/CONTROLLER_GUIDE.md`
+- `backend/src/main/java/com/tickle_moa/backend/dto/DTO_GUIDE.md`
+- `backend/src/main/java/com/tickle_moa/backend/service/SERVICE_GUIDE.md`
+- `backend/src/main/java/com/tickle_moa/backend/mapper/MAPPER_GUIDE.md`
+- `backend/src/main/java/com/tickle_moa/backend/model/MODEL_GUIDE.md`
+- `backend/src/main/java/com/tickle_moa/backend/security/SECURITY_GUIDE.md`
 - `backend/src/main/resources/RESOURCES_GUIDE.md`
 
 ### Frontend
