@@ -110,3 +110,24 @@ cd frontend && npm run dev
 | DB명 | account_book_db |
 | 계정 | account / book |
 
+
+## test 진행 순서
+
+<img width="822" height="776" alt="1 회원가입test" src="https://github.com/user-attachments/assets/1bd8b8a9-ee83-4a01-a527-3cf49b8d15a8" />
+
+<img width="854" height="766" alt="2  로그인test" src="https://github.com/user-attachments/assets/fc70e843-c1e0-4236-94a1-0476eb63b689" />
+
+<img width="912" height="343" alt="3 계좌등록test" src="https://github.com/user-attachments/assets/71e5438a-c3a1-489f-958d-fd47c39be0f8" />
+
+<img width="849" height="298" alt="4 거래내역test" src="https://github.com/user-attachments/assets/dd2e868f-2a68-4509-b12d-1269f1f3b0ed" />
+
+<img width="1258" height="335" alt="4_1 거래내역등록test" src="https://github.com/user-attachments/assets/90433b14-9bfd-487e-9885-e5bd2c116f02" />
+
+<img width="1306" height="987" alt="5 DB등록확인test" src="https://github.com/user-attachments/assets/e4a3c3fb-d3eb-419b-9987-23ec1dd172dd" />
+
+
+
+
+
+
+
