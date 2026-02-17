@@ -1,6 +1,6 @@
 # Tickle-Moa (가계부 Account Book)
 
-모놀리식 개인 재무 관리 웹 애플리케이션
+모놀리식 가계부 관리프로그램
 
 ## 기술 스택
 
@@ -68,7 +68,7 @@ account-book/
 | users | 회원 (user_id, name, email, password, created_at, role) |
 | accounts | 계좌 (account_id, user_id, name, balance, created_at) |
 | transactions | 거래내역 (tran_id, account_id, type, category, amount, description, date, created_at) |
-| untitled | 리프레시 토큰 (user_id, refresh_token) |
+| 아직 흐름 이해중입니다 | 리프레시 토큰 (refresh_token) |
 
 ## API 엔드포인트
 
