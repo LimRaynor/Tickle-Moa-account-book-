@@ -174,6 +174,33 @@ Vue View -> Pinia Store -> Axios(api/axios.js)
 | `service/AuthService` | `login()` 추가 — BCrypt 비밀번호 검증 포함 |
 | `controller/AuthController` | 로그인 응답을 `TokenResponse`로 변경 (JWT 토큰 포함) |
 
+
+## test 
+1 - 회원가입
+<img width="822" height="776" alt="1 회원가입test" src="https://github.com/user-attachments/assets/5c41d3c0-518a-445d-88ef-08dc0382251c" />
+
+2 - 로그인
+
+<img width="854" height="766" alt="2  로그인test" src="https://github.com/user-attachments/assets/f7c9e763-f0f9-4dba-becf-0c874df11000" />
+
+3- 계좌등록
+
+<img width="912" height="343" alt="3 계좌등록test" src="https://github.com/user-attachments/assets/711f6d34-dcaf-4e21-b276-c77805853721" />
+
+
+4 - 거래내역 
+
+<img width="849" height="298" alt="4 거래내역test" src="https://github.com/user-attachments/assets/aa180a52-82cb-43b2-92f6-b1c1210e740b" />
+
+
+4.1 - 거래내역등록
+
+<img width="1258" height="335" alt="4_1 거래내역등록test" src="https://github.com/user-attachments/assets/cfef0a0c-6c60-4939-9eef-9296f498b6b5" />
+
+5 - DB등록 확인
+
+<img width="1306" height="987" alt="5 DB등록확인test" src="https://github.com/user-attachments/assets/286100ea-3fc2-4582-bd07-b178569e6a5b" />
+
 **프론트엔드 변경**
 
 | 파일 | 내용 |
