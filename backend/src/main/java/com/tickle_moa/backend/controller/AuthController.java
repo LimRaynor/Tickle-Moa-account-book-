@@ -1,4 +1,4 @@
-﻿package com.tickle_moa.backend.controller;
+package com.tickle_moa.backend.controller;
 
 import com.tickle_moa.backend.model.User;
 import com.tickle_moa.backend.service.AuthService;
@@ -18,7 +18,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody User user) {
         authService.signup(user);
-        return ResponseEntity.ok("?뚯썝媛???깃났");
+        return ResponseEntity.ok("회원가입 성공");
     }
 
     // POST /api/auth/login 요청이 오면 -> 이메일 기준으로 사용자 조회 후 반환

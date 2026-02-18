@@ -143,4 +143,33 @@ Vue View -> Pinia Store -> Axios(api/axios.js)
 
 
 ## 버그 발견현황
-1). 로그인하기전 계좌, 거래내역 페이지 선택후 다른페이지로 이동이 안되는현상 (url주소는 바뀌는데 창은그대로)
+
+### 1) 로그인 전 페이지 이동 불가
+- **증상**: 로그인하기 전 계좌, 거래내역 페이지 선택 후 다른 페이지로 이동이 안됨 (URL은 바뀌는데 화면은 그대로)
+
+---
+
+### 2) BOM 문자로 컴파일 실패
+| 항목 | 내용 |
+|------|------|
+| **증상** | `illegal character: '\ufeff'` 에러로 `gradlew bootRun` 실패 |
+| **원인** | `AccountController.java`, `TransactionController.java`, `AuthController.java` 파일 앞에 UTF-8 BOM(`EF BB BF`) 3바이트가 붙어있었음. Windows 메모장 등 일부 에디터가 자동 삽입 |
+| **해결** | `sed`로 3개 파일의 BOM 바이트 제거 |
+
+---
+
+### 3) AuthController 한글 인코딩 깨짐
+| 항목 | 내용 |
+|------|------|
+| **증상** | `ResponseEntity.ok("?뚯썝媛???깃났")` — 한글이 깨진 상태로 저장됨 |
+| **원인** | UTF-8 파일을 다른 인코딩(EUC-KR 등)으로 다시 열어서 저장하면서 한글 바이트가 변환됨 |
+| **해결** | 파일을 정상 UTF-8로 재작성, `"회원가입 성공"`으로 복원 |
+
+---
+
+### 4) Spring Security 401 Unauthorized
+| 항목 | 내용 |
+|------|------|
+| **증상** | 서버는 켜지지만 모든 API 요청에 `401 Unauthorized` 응답 |
+| **원인** | `build.gradle`에 `spring-boot-starter-security` 의존성이 있는데 `SecurityConfig.java`가 비어있었음. (1) `BCryptPasswordEncoder` 빈 미등록 → 서버 시작 실패, (2) `SecurityFilterChain` 미설정 → 모든 요청 차단 |
+| **해결** | `SecurityConfig`에 `BCryptPasswordEncoder` 빈 등록 + `permitAll()` 필터체인 추가 (JWT 미구현이라 전체 허용) |
