@@ -1,20 +1,30 @@
-// src/stores/auth.js
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', () => {
-    // 로그인한 유저 정보 (null이면 비로그인)
     const user = ref(null)
+    const token = ref(localStorage.getItem('token') || null)
 
-    // 로그인 성공 시 호출
+    function login(tokenResponse) {
+        token.value = tokenResponse.token
+        user.value = {
+            userId: tokenResponse.userId,
+            name: tokenResponse.name,
+            email: tokenResponse.email,
+            role: tokenResponse.role
+        }
+        localStorage.setItem('token', tokenResponse.token)
+    }
+
+    function logout() {
+        user.value = null
+        token.value = null
+        localStorage.removeItem('token')
+    }
+
     function setUser(userData) {
         user.value = userData
     }
 
-    // 로그아웃
-    function clearUser() {
-        user.value = null
-    }
-
-    return { user, setUser, clearUser }
+    return { user, token, login, logout, setUser }
 })

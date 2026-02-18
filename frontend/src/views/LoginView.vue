@@ -15,8 +15,7 @@ async function handleLogin() {
       email: email.value,
       password: password.value
     })
-    console.log('로그인 유저:', res.data)
-    authStore.setUser(res.data)
+    authStore.login(res.data)
     alert(res.data.name + '님 환영합니다!')
     router.push('/')
   } catch (e) {

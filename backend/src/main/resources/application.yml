@@ -26,6 +26,10 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+jwt:
+  secret: account-book-jwt-secret-key-must-be-at-least-256-bits-long
+  expiration: 86400000
+
 # 서버 설정
 server:
   port: 8080
