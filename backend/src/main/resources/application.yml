@@ -5,9 +5,9 @@ spring:
   # MariaDB 연결 설정
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/account_book_db
-    username: account
-    password: book
+    url: ${SPRING_DATASOURCE_URL:jdbc:mariadb://localhost:3306/account_book_db}
+    username: ${SPRING_DATASOURCE_USERNAME:account}
+    password: ${SPRING_DATASOURCE_PASSWORD:book}
 
   # JPA 설정
   jpa:
