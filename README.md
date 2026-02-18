@@ -140,3 +140,7 @@ Vue View -> Pinia Store -> Axios(api/axios.js)
 
 ### 5) DB 등록 확인
 ![5. DB 등록 확인](test/5.DB등록확인test.png)
+
+
+## 버그 발견현황
+1). 로그인하기전 계좌, 거래내역 페이지 선택후 다른페이지로 이동이 안되는현상 (url주소는 바뀌는데 창은그대로)
