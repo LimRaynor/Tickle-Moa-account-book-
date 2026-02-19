@@ -7,7 +7,8 @@ import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor
-public class AccountCreateRequest {
+public class
+AccountCreateRequest {
 
     private Long userId;
     private String name;
