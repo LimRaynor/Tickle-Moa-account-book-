@@ -15,6 +15,8 @@ export const useAccountStore = defineStore('account', () => {
     // 계좌 추가
     async function addAccount(account) {
         await api.post('/api/accounts', account)
+        // post 방식으로 해당 url요청하면 응답이 올때까지 기다리는것 index.js에서 주소확인 문제없음
+
     }
 
     // 계좌 삭제

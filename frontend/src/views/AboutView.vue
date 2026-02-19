@@ -1,7 +1,7 @@
 <template>
   <div class="card about-card">
     <h1>About</h1>
-    <p>Vue 3 + Spring Boot로 만든 가계부 애플리케이션입니다.</p>
+    <p>계좌관리와 지출내역 확인</p>
     <p class="sub">계좌 관리와 수입/지출 거래 내역을 기록할 수 있습니다.</p>
   </div>
 </template>

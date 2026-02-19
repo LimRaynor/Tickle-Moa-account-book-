@@ -1,12 +1,30 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import  { useAuthStore } from  './stores/auth.js'
 
+
+//  객체생성
+const router = useRouter()
+const authStore = useAuthStore();
+
+const handleLogout = () => {
+
+  try {
+    authStore.logout()
+    router.push('/')
+
+  }  catch (error){
+    console.log("로그아웃 실패")
+  }
+
+}
 </script>
+
 
 <template>
   <header class="nav-header">
     <div class="nav-inner">
-      <span class="nav-logo">Account Book</span>
+      <span class="nav-logo">Tickle Moa</span>
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
@@ -15,6 +33,7 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/accounts">계좌</RouterLink>
         <RouterLink to="/transactions">거래내역</RouterLink>
       </nav>
+      <button class="logout-btn" @click="handleLogout">로그아웃</button>
     </div>
   </header>
 
@@ -69,6 +88,24 @@ nav a:hover {
 nav a.router-link-exact-active {
   color: var(--color-white);
   background: var(--color-primary);
+}
+
+.logout {
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.7);
+  background: none;
+  border: none;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.logout:hover {
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .main-content {

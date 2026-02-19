@@ -15,7 +15,8 @@ onMounted(() => {
 // 2. 계좌 추가
 async function handleAddAccount() {
   await accountStore.addAccount({
-    userId: authStore.user.userId,
+    // handleAddAccount 계좌생성세는 요청을 store에 전달하는것
+    userId: authStore.user.userId, // 로그인 확인값이 null 이라 에러 (아마 토큰발급문제인듯)
     name: accountName.value,
     balance: 0
   })
@@ -33,7 +34,6 @@ async function handleDeleteAccount(id) {
 <template>
   <div class="card">
     <h1>계좌 관리</h1>
-
     <form class="add-form" @submit.prevent="handleAddAccount">
       <input v-model="accountName" placeholder="계좌명을 입력하세요" required />
       <button type="submit">추가</button>
