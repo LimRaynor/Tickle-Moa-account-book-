@@ -12,7 +12,7 @@ spring:
   # JPA 설정
   jpa:
     hibernate:
-      ddl-auto: none # 처음에create나 update였을 때 JPA가 테이블을 자동 생성 / none면 자동X
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
@@ -22,14 +22,16 @@ spring:
 # MyBatis 설정
 mybatis:
   mapper-locations: classpath:mappers/**/*.xml
-  type-aliases-package: com.ohgiraffers.backend
+  type-aliases-package: com.tickle_moa.backend
   configuration:
     map-underscore-to-camel-case: true
 
+# JWT 설정
 jwt:
   secret: account-book-jwt-secret-key-must-be-at-least-256-bits-long
-  expiration: 86400000
+  expiration: 1800000
+  refresh-expiration: 604800000
 
-# 서버 설정
+# 서버 포트
 server:
   port: 8080

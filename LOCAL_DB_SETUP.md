@@ -6,7 +6,7 @@
 - DBMS: `MariaDB 10.11+`
 - Host: `localhost`
 - Port: `3306`
-- DB Name: `account_book_db`
+- DB Name: ``
 - DB User: `account`
 - DB Password: `book`
 

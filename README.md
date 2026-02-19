@@ -16,13 +16,16 @@
 account-book/
 ├─ backend/
 │  ├─ src/main/java/com/tickle_moa/backend/
-│  │  ├─ config/
-│  │  ├─ controller/
-│  │  ├─ dto/
-│  │  ├─ mapper/
-│  │  ├─ model/
-│  │  ├─ security/
-│  │  └─ service/
+│  │  ├─ auth/
+│  │  │  ├─ controller/    ← 인증 API (로그인/회원가입)
+│  │  │  ├─ dto/           ← 인증 요청/응답 객체
+│  │  │  └─ service/       ← 인증 비즈니스 로직
+│  │  ├─ config/           ← 보안/CORS 설정
+│  │  ├─ controller/       ← 계좌/거래 API
+│  │  ├─ jwt/              ← JWT 토큰 생성/검증/필터
+│  │  ├─ mapper/           ← MyBatis 인터페이스
+│  │  ├─ model/            ← DB 테이블 매핑 객체
+│  │  └─ service/          ← 계좌/거래 비즈니스 로직
 │  └─ src/main/resources/
 │     ├─ application.yml
 │     └─ mappers/
@@ -42,11 +45,15 @@ account-book/
 
 ## 백엔드 역할 정리
 
-- **config**: 보안/CORS/공통 설정 담당. 프론트와 "연결"이라기보다 서버의 요청 허용 규칙을 정하는 계층
-- **controller**: 요청/응답 입구. RequestBody/RequestParam/PathVariable을 받아 Service 호출 후 응답 반환
-- **service**: 비즈니스 로직 담당. 직접 SQL 실행보다 Mapper 호출로 DB 작업 수행
+- **auth/controller**: 인증 API 입구 (로그인, 회원가입)
+- **auth/dto**: 인증 요청/응답 전용 객체 (LoginRequest, SignupRequest, TokenResponse)
+- **auth/service**: 인증 비즈니스 로직 (AuthService, CustomUserDetailsService)
+- **jwt**: JWT 토큰 생성/검증/필터 (JwtTokenProvider, JwtAuthenticationFilter)
+- **config**: 보안/CORS/공통 설정 담당 (SecurityConfig, WebConfig)
+- **controller**: 계좌/거래 API 입구 (AccountController, TransactionController)
+- **service**: 계좌/거래 비즈니스 로직 담당 (AccountService, TransactionService)
 - **mapper**: Service 요청을 받아 MyBatis XML SQL 실행
-- **model**: Repository가 아니라 DB 테이블과 매핑되는 도메인 객체(VO/Entity 성격)
+- **model**: DB 테이블과 매핑되는 도메인 객체(VO/Entity 성격)
 - **MariaDB**: 데이터 저장/조회/수정/삭제 수행
 
 ## 실행 방법
@@ -99,13 +106,15 @@ Vue View -> Pinia Store -> Axios(api/axios.js)
 ## 패키지별 가이드
 
 **Backend**
+- backend/src/main/java/com/tickle_moa/backend/auth/controller/AUTH_CONTROLLER_GUIDE.md
+- backend/src/main/java/com/tickle_moa/backend/auth/dto/DTO_GUIDE.md
+- backend/src/main/java/com/tickle_moa/backend/auth/service/AUTH_SERVICE_GUIDE.md
+- backend/src/main/java/com/tickle_moa/backend/jwt/JWT_GUIDE.md
 - backend/src/main/java/com/tickle_moa/backend/config/CONFIG_GUIDE.md
 - backend/src/main/java/com/tickle_moa/backend/controller/CONTROLLER_GUIDE.md
-- backend/src/main/java/com/tickle_moa/backend/dto/DTO_GUIDE.md
 - backend/src/main/java/com/tickle_moa/backend/service/SERVICE_GUIDE.md
 - backend/src/main/java/com/tickle_moa/backend/mapper/MAPPER_GUIDE.md
 - backend/src/main/java/com/tickle_moa/backend/model/MODEL_GUIDE.md
-- backend/src/main/java/com/tickle_moa/backend/security/SECURITY_GUIDE.md
 - backend/src/main/resources/RESOURCES_GUIDE.md
 
 **Frontend**
@@ -154,6 +163,21 @@ Vue View -> Pinia Store -> Axios(api/axios.js)
 | 해결 | SecurityConfig에 BCryptPasswordEncoder 빈 등록 + permitAll() 필터체인 추가 (JWT 미구현이라 전체 허용) |
 
 ## 변경 이력
+
+### 2026-02-19 — 패키지 구조 변경 (수업자료 방식)
+
+**배경**: 인증 관련 파일이 controller/, dto/, service/ 등에 흩어져 있어 수업자료처럼 auth/ 패키지로 통합 정리.
+
+| 변경 전 | 변경 후 |
+|---|---|
+| `controller/AuthController` | `auth/controller/AuthController` |
+| `dto/LoginRequest` | `auth/dto/LoginRequest` |
+| `dto/SignupRequest` | `auth/dto/SignupRequest` |
+| `dto/TokenResponse` | `auth/dto/TokenResponse` |
+| `service/AuthService` | `auth/service/AuthService` |
+| `security/CustomUserDetailsService` | `auth/service/CustomUserDetailsService` |
+| `security/JwtTokenProvider` | `jwt/JwtTokenProvider` |
+| `security/JwtAuthenticationFilter` | `jwt/JwtAuthenticationFilter` |
 
 ### 2026-02-18 — JWT 인증 구현
 
@@ -218,15 +242,15 @@ Vue View -> Pinia Store -> Axios(api/axios.js)
 | 파일 | 내용 |
 |---|---|
 | `application.yml` | `jwt.secret`, `jwt.expiration` 설정값 추가 |
-| `dto/LoginRequest` | 로그인 요청 DTO (email, password) |
-| `dto/SignupRequest` | 회원가입 요청 DTO (name, email, password) |
-| `dto/TokenResponse` | 로그인 응답 DTO (token, userId, name, email, role) |
-| `security/JwtTokenProvider` | JWT 생성 / 검증 / 파싱 컴포넌트 |
-| `security/CustomUserDetailsService` | 이메일 기반 UserDetails 조회 |
-| `security/JwtAuthenticationFilter` | Authorization 헤더에서 토큰 추출 후 SecurityContext 등록 |
+| `auth/dto/LoginRequest` | 로그인 요청 DTO (email, password) |
+| `auth/dto/SignupRequest` | 회원가입 요청 DTO (name, email, password) |
+| `auth/dto/TokenResponse` | 로그인 응답 DTO (token, userId, name, email, role) |
+| `jwt/JwtTokenProvider` | JWT 생성 / 검증 / 파싱 컴포넌트 |
+| `auth/service/CustomUserDetailsService` | 이메일 기반 UserDetails 조회 |
+| `jwt/JwtAuthenticationFilter` | Authorization 헤더에서 토큰 추출 후 SecurityContext 등록 |
 | `config/SecurityConfig` | JWT 필터 등록, `/api/auth/**` 공개, 나머지 인증 필요, Stateless 세션 |
-| `service/AuthService` | `login()` 추가 — BCrypt 비밀번호 검증 포함 |
-| `controller/AuthController` | 로그인 응답을 `TokenResponse`로 변경 (JWT 토큰 포함) |
+| `auth/service/AuthService` | `login()` 추가 — BCrypt 비밀번호 검증 포함 |
+| `auth/controller/AuthController` | 로그인 응답을 `TokenResponse`로 변경 (JWT 토큰 포함) |
 
 
 **인증 흐름**

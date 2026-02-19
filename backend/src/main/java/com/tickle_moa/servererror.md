@@ -67,3 +67,6 @@ return http.build();
 }
 
 JWT 미구현 상태니까 일단 전체 허용(permitAll)으로 열어둔 것. 나중에 JWT 구현하면 여기에 인증 필터를 추가하게 됨.
+
+들여쓰기 실수 : 원인 찾았습니다. mybatis, jwt, server가 spring: 안에 들여쓰기 되어 있어서 spring.jwt.secret으로 인식되고 있어요.
+이 세 개는 spring: 밖에 있어야 합니다.
