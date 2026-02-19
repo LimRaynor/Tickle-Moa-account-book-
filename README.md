@@ -256,10 +256,68 @@ Vue View -> Pinia Store -> Axios(api/axios.js)
 **인증 흐름**
 
 ```
-로그인 요청 (email + password)
-  → 비밀번호 BCrypt 검증
-  → JWT 발급 (유효기간 24시간)
-  → TokenResponse 반환
-  → localStorage에 token 저장
-  → 이후 모든 API 요청에 Bearer 토큰 자동 첨부
+[클라이언트(브라우저/모바일앱)]             [서버(Spring Boot)]                     [데이터베이스]
+         |                                       |                                     |
+         | --- 1. 로그인 요청 (ID/PW) ---------> |                                     |
+         |                                       | --- 2. 회원 정보 조회/검증 -------> |
+         |                                       | <---------------------------------- |
+         |                                       | --- 3. Refresh Token 저장 --------> |
+         | <--- 4. 응답 (Access + Refresh Body)- |                                     |
+         |                                       |                                     |
+         | --- 5. API 요청 (+ Access Token) ---> | [JwtFilter]                         |
+         |                                       |  - Access Token 검증                |
+         |                                       |  - 유효하면 Controller 진입         |
+         | <--- 6. 데이터 반환 ----------------- |                                     |
+         |                                       |                                     |
+         | --- 7. Access 만료 시 재발급 요청 --> |                                     |
+         |        (Body에 Refresh Token 포함)    | --- 8. DB의 Refresh Token과 비교 -> |
+         |                                       | <---------------------------------- |
+         | --- 9. 새 Refresh Token DB 덮어쓰기-> |                                     |
+         | <--- 10. 새 Access, Refresh 발급 ---- |                                     |
+
+
+3. 핵심 코드 단계별 설명 (Body 반환 구조)
+단계 1: 응답 반환 (AuthController)
+
+Java
+// AuthController.login()
+@PostMapping("/login")
+public ResponseEntity<ApiResponse<TokenResponse>> login(
+        @RequestBody LoginRequest loginRequest) {
+
+    TokenResponse response = authService.login(loginRequest);
+    
+    // 쿠키 생성 로직 제거됨
+    // TokenResponse 객체 안에 accessToken과 refreshToken이 모두 들어있음
+    return ResponseEntity.ok(ApiResponse.success(response)); 
+}
+작동 방식: 서버는 authService에서 두 개의 토큰을 발급받아 TokenResponse 객체에 담습니다. 그리고 HTTP 헤더 조작(쿠키 설정) 없이, 깔끔하게 JSON Body로만 클라이언트에게 전달합니다.
+
+단계 2: 클라이언트의 토큰 수신 및 저장
+
+JavaScript
+// 프론트엔드 (예시)
+const response = await api.post('/api/v1/auth/login', { email, password });
+const { accessToken, refreshToken } = response.data.data;
+
+// 둘 다 클라이언트 저장소에 직접 보관
+localStorage.setItem('accessToken', accessToken);
+localStorage.setItem('refreshToken', refreshToken); 
+작동 방식: 클라이언트는 서버가 준 두 개의 출입증을 모두 받아서 자신의 저장소에 보관합니다.
+
+단계 3: 액세스 토큰 만료 시 재발급 (Refresh)
+
+Java
+// AuthController.refresh()
+@PostMapping("/refresh")
+public ResponseEntity<ApiResponse<TokenResponse>> refresh(
+        @RequestBody RefreshRequest refreshRequest) { // Body로 리프레시 토큰을 받음
+    
+    String oldRefreshToken = refreshRequest.getRefreshToken();
+    TokenResponse response = authService.refreshToken(oldRefreshToken);
+    
+    return ResponseEntity.ok(ApiResponse.success(response));
+}
+작동 방식: 이전에는 클라이언트가 요청만 보내면 서버가 쿠키에서 리프레시 토큰을 꺼내서 확인했습니다. 하지만 이제는 클라이언트가 직접 Body(혹은 Header)에 리프레시 토큰을 담아서 보내야 합니다. 서버는 전달받은 토큰이 DB에 있는 토큰과 일치하는지 확인한 후, 새로운 TokenResponse(새 Access + 새 Refresh)를 만들어 다시 Body로 반환합니다.
+
 ```
