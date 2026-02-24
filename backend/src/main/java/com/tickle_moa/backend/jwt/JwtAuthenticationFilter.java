@@ -33,6 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String email = jwtTokenProvider.getEmailFromJWT(token);
             // 4. email로 사용자 정보(UserDetails) 로드 (DB 등에서 조회)
             // CustomUserDetailsService 를 통해 사용자 정보를 로드한다.
+            // sdf
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
             // 5. Authentication 객체 생성 (권한 정보 포함)
